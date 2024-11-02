@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useState } from "react";
 
-function App() {
+export default function App() {
+  const [match, setMatch] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleValidation = (e) => {
+    e.preventDefault();
+    if (username == "user" && password == "password") {
+      setMatch(true);
+      setError("");
+    } else {
+      setMatch(false);
+      setError("Invalid username or password");
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Login Page</h1>
+      {match ? (
+        <h2>Welcome, {username}!</h2>
+      ) : (
+        <div>
+          <form onSubmit={handleValidation}>
+            {error && <p className="error">{error}</p>}
+            <label htmlFor="Username">Username:</label>
+            <input
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="username"
+              id="Username"
+              type="text"
+              required
+            />
+            <br />
+            <label htmlFor="password">Password:</label>
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="password"
+              id="password"
+              type="password"
+              required
+            />
+            <br />
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      )}
     </div>
   );
 }
-
-export default App;
